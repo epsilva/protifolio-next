@@ -4,24 +4,11 @@ import { firebaseStorage, firebaseDatabase } from '../src/utils/firebaseConfig';
 import { Container, HomeContainer, Apresentation, About } from '../src/styles/Home/styles';
 import { setTitleHeader } from '../src/store/modules/actions/actions';
 import Header from '../src/components/Header';
-import Loading from '../src/components/LoadingHome';
 import NotFound from '../src/components/NotFound';
+import Head from 'next/head';
 
-function Home({ retorno, child }) {
+function Home({ retorno }) {
     const dispatch = useDispatch();
-
-    const [img, setImg] = useState('');
-    const [sideClient, setSideClient] = useState(false);
-
-    useEffect(() => {
-        firebaseStorage.ref().child(`${child}/imgHome.jpeg`).getDownloadURL().then(function (url) {
-            setImg(url);
-            setSideClient(true);
-        }).catch(function (error) {
-            console.log(error);
-        });
-
-    }, []);
 
     useEffect(() => {
         const handleScroll = _ => {
@@ -51,13 +38,25 @@ function Home({ retorno, child }) {
 
     return (
         <>
-            {sideClient ? <Container img={img}>
+            <Head>
+                <title>Home</title>
+            </Head>
+            {retorno !== null ? <Container img={retorno.img}>
+                <Head>
+                    <meta charSet="utf-8" />
+                    <title>Esdras Pinheiro</title>
+                    <link rel="canonical" href="https://portifolio-esdras.herokuapp.com/profile/esdras-pinheiro" />
+                    <meta property="og:description" content={`${retorno.about?.replace(/<[^>]*>?/gm, '')}`} />
+                    <meta property="og:site_name" content={`${retorno.apresentation} - Veja Nossas Vagas!`} />
+                    <meta property="og:title" content={`${retorno.apresentation}`} />
+                    <meta property="og:image" content={`${retorno.img}`} />
+                </Head>
                 <Header />
                 <HomeContainer id="Home">
                     <Apresentation>{retorno.apresentation}</Apresentation>
                     <About>{retorno.about}</About>
                 </HomeContainer>
-            </Container> : retorno === null ? <NotFound /> : <Loading />}
+            </Container> : <NotFound />}
         </>
     );
 
@@ -65,12 +64,12 @@ function Home({ retorno, child }) {
 
 Home.getInitialProps = async ({ req, query }) => {
 
-    let retorno = {error: true};
-    await firebaseDatabase.ref(`/${query.node}/` + query.child).once('value').then( snapshot => {
+    let retorno;
+    await firebaseDatabase.ref(`/${query.node}/` + query.child).once('value').then(snapshot => {
         retorno = snapshot.val();
-      });
+    });
 
-    return { retorno, child: query.child };
+    return { retorno };
 };
 
 export default Home
