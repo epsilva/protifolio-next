@@ -42,7 +42,7 @@ function Home({ retorno }) {
                 <title>Home</title>
             </Head>
             {retorno !== null ? <Container img={retorno.img}>
-                <Head>
+                {/* <Head>
                     <meta charSet="utf-8" />
                     <title>Esdras Pinheiro</title>
                     <link rel="canonical" href="https://portifolio-esdras.herokuapp.com/profile/esdras-pinheiro" />
@@ -50,7 +50,7 @@ function Home({ retorno }) {
                     <meta property="og:site_name" content={`${retorno.apresentation} - Veja Nossas Vagas!`} />
                     <meta property="og:title" content={`${retorno.apresentation}`} />
                     <meta property="og:image" content={`${retorno.img}`} />
-                </Head>
+                </Head> */}
                 <Header />
                 <HomeContainer id="Home">
                     <Apresentation>{retorno.apresentation}</Apresentation>
