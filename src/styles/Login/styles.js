@@ -8,10 +8,17 @@ export const Container = styled.div`
     width: 100%;
     height: 100vh;
     background-image: ${props => (props.isLogin ? 'url("static/login.svg")' : 'url("static/register.svg")')};    
-    background-size: contain; 
+    background-size: 30%; 
+    background-position-y: 40%;
+    background-position-x: 10%;
     background-repeat: no-repeat;
     justify-content: center;
     background-attachment: fixed;
+
+    @media screen and (max-width: 910px) {
+        background-size: 300px; 
+        background-position-y: 40%;
+    }
 
     > a {
         margin: 12px;
@@ -45,13 +52,6 @@ export const ContainerForm = styled.form`
         box-shadow: 0px 0px 0px;
     }
 
-    .link-voltar {
-        color: ${props => (!props.isLogin && '#FFF')};    
-        @media screen and (max-width: 910px) {
-            color: ${props => (!props.isLogin && '#6963fb')};    
-        }
-    }
-
     .link-register {
         color: ${props => (!props.isLogin && '#6963fb')};    
         @media screen and (max-width: 910px) {
@@ -63,10 +63,10 @@ export const ContainerForm = styled.form`
 
 export const Title = styled.span`
     font-size: 28px;
-    color: ${props => (props.isLogin ? '#525252' : '#FFF')};    
+    color: #525252;
     @media screen and (max-width: 910px) {
         font-size: 28px;
-        color: ${props => (props.isLogin ? '#FFF' : '#FFF')};    
+        color: ${props => (props.isLogin ? '#FFF' : '#525252')};    
     }
 `;
 
