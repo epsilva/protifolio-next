@@ -16,7 +16,7 @@ function Index() {
             <Title>Profile Manager</Title>
             <br />
             <Description>
-              Profile Manager, foi um sitema criado para profíssionais que desejam compartilhar suas experiências, projetos de uma forma que simples e personalizada.
+              Profile Manager, foi um sitema criado para profíssionais que desejam compartilhar suas experiências, projetos de uma forma simples e personalizada.
             </Description>
             <br />
             <Description className="ask">
