@@ -1,6 +1,8 @@
-import React, {useState, useEffect} from 'react';
-import { useSelector } from 'react-redux';
-// import Logo from '~/components/Logo';
+import React, { useEffect, useState } from 'react';
+import Logo from '../Logo';
+import PropTypes from 'prop-types';
+import Link from 'next/link';
+import { Button } from '../../styles/styles';
 
 import {
     Container,
@@ -8,27 +10,46 @@ import {
     ContainerHeader,
     ContainerMenu,
     Text,
-    TitleHeader,
 } from './styles';
 
-export default function Header() {
-
-    const title = useSelector(state => state.actions.title);
-    const color = useSelector(state => state.actions.color);
+function Header({ isIndex }) {
 
     return (
         <Container>
-            <ContainerHeader color={color}>
+            <ContainerHeader>
                 <ContainerLogo>
-                    {/* <Logo /> */}
-                    <TitleHeader>{title}</TitleHeader>
+                    <Logo />
                 </ContainerLogo>
                 <ContainerMenu>
-                    <Text href="#Home">Home</Text>
-                    <Text href="#Work">Work</Text>
-                    <Text href="#Skills">Skills</Text>
+                    {isIndex ?
+                        <>
+                            <Link href="/login">
+                                <a>
+                                    <Button>
+                                        Acessar Sistema
+                                    </Button>
+                                </a>
+                            </Link>
+                        </>
+                        :
+                        <>
+                            <Text href="#Home">Home</Text>
+                            <Text href="#Work">Work</Text>
+                            <Text href="#Skills">Skills</Text>
+                        </>
+                    }
                 </ContainerMenu>
             </ContainerHeader>
         </Container>
     );
 }
+
+Header.defaultProps = {
+    isIndex: false,
+}
+
+Header.PropTypes = {
+    isIndex: PropTypes.bool,
+}
+
+export default Header;

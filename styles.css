@@ -13,7 +13,9 @@
 
     html, body, #root {
         height: 100%;
-        /* background: #eaeaeb; */
+        background: #eaeaeb;
+        scroll-behavior: smooth;
+        overflow: auto;
     }
 
     body {

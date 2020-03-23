@@ -17,7 +17,12 @@ export const Container = styled.div`
       width: 428px;
       height: 267px;
       margin-top: 25px;
+
+      @media screen and (max-width: 510px) {
+        width: 324px !important;
+      }
     }
+    
 
     h1 {
       font: Bold 85px/102px Roboto;

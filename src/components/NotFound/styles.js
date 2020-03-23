@@ -14,9 +14,13 @@ export const Container = styled.div`
     margin-top: 80px;
 
     img {
-      width: 428px;
+      width: 429px;
       height: 267px;
       margin-top: 25px;
+
+      @media screen and (max-width: 510px) {
+        width: 324px !important;
+      }
     }
 
     h1 {

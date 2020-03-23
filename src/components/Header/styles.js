@@ -24,10 +24,13 @@ export const ContainerLogo = styled.div`
     display: flex;
     justify-content: center;
     margin-bottom: 8px;
+    margin-left: 8px;
     align-items: center;
 `;
 
-export const ContainerMenu = styled.div``;
+export const ContainerMenu = styled.div`
+    margin-right: 12px;
+`;
 
 export const Text = styled.a`
     color: #fff;
