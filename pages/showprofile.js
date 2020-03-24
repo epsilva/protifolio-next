@@ -65,13 +65,13 @@ function ShowProfile({ retorno }) {
 
 ShowProfile.getInitialProps = async ({ req, query }) => {
 
-    let retorno = null;
-    await firebaseDatabase.ref(`/${query.node}/` + query.child).once('value').then(snapshot => {
-        retorno = snapshot.val();
-    });
+    let retorno = {about: 'Em Construção', apresentation: 'Em Contrução'};
+    // await firebaseDatabase.ref(`/${query.node}/` + query.child).once('value').then(snapshot => {
+    //     retorno = snapshot.val();
+    // });
 
     return { retorno };
 };
 
-export default ShowProfile
+export default ShowProfile;
 
