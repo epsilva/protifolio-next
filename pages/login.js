@@ -1,38 +1,43 @@
 import React, { useState, useEffect } from 'react';
 
 import { Container, ContainerForm, Title, ContainerTitle } from '../src/styles/Login/styles';
-import { Input, Button, LinkCuston, ErrorField, ContinerInput } from '../src/styles/styles';
+import { Input, Button, LinkCuston, ErrorField, ContinerInput, SuccessField } from '../src/styles/styles';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form'
-import { firebaseImpl } from '../src/utils/firebaseConfig';
-import loginError from '../src/utils/firebaseMsgs';
+import { firebaseDatabase } from '../src/utils/firebaseConfig';
+import { useRouter } from 'next/router';
+import { useDispatch, useSelector } from 'react-redux';
+import { signUpRequest, signInRequest } from '../src/store/modules/auth/actions';
+import Loading from '../src/components/Loading';
 
 function Login() {
-
+    const router = useRouter();
+    const dispatch = useDispatch();
     const { register, handleSubmit, watch, errors } = useForm();
-    const [confirmPassword, setConfirmPassword] = useState(false);
-
     const [isLogin, setIsLogin] = useState(true);
 
-    const onSubmitRegister = data => {
-        // if (data.password === data.confirm_password) {
-        //     firebaseImpl.auth().createUserWithEmailAndPassword(data.email, data.password).then(user => {
-        //         firebaseImpl.auth().currentUser.updateProfile({
-        //             displayName: data.name
-        //         }).then(sucesso => {
-        //             console.log(sucesso)
-        //         }).catch(function (error) {
-        //             console.log(error)
-        //         });
-        //     }).catch(error => {
-        //         console.log(error)
-        //         loginError(error);
-        //     });
-        // } else {
-        //     console.log('Erro senha')
-        // }
+    const successRegister = useSelector(state => state.auth.signed);
+    const loading = useSelector(state => state.auth.loading);
+    const error = useSelector(state => state.auth.error);
+
+    const onSubmitRegister = async data => {
+        dispatch(signUpRequest(data));
     }
+
+    const onSubmitLogin = data => {
+        dispatch(signInRequest(data.email, data.password));
+    }
+
+    useEffect(() => {
+        if (successRegister) {
+            router.push('/home');
+        }
+    }, [successRegister])
+
+    useEffect(() => {
+        dispatch(signInRequest(null, null));
+    }, []);
 
     return (
         <Container isLogin={isLogin}>
@@ -65,22 +70,38 @@ function Login() {
                             {errors.password && <ErrorField>O password é obrigatório</ErrorField>}
                         </ContinerInput>
                         <ContinerInput>
-                            <Input type="password" name="confirm_password" placeholder="Cofirmar senha" ref={register({ required: true, 
-                                validate: (value) => value === watch('password') })} />
+                            <Input type="password" name="confirm_password" placeholder="Cofirmar senha" ref={register({
+                                required: true,
+                                validate: (value) => value === watch('password')
+                            })} />
                             {errors.confirm_password && errors.confirm_password.type === 'required' && <ErrorField>Confirmar password é obrigatório</ErrorField>}
                             {errors.confirm_password && errors.confirm_password.type === 'validate' && <ErrorField>As senhas não confere</ErrorField>}
                         </ContinerInput>
-                        <Button type="submit">
-                            Criar conta
-                        </Button>
-                        <LinkCuston onClick={() => setIsLogin(true)} className="link-voltar">
-                            Voltar
-                        </LinkCuston>
+                        {!loading
+                            ?
+                            <Button type="submit" disabled={successRegister}>
+                                Criar conta
+                            </Button>
+                            :
+                            <Loading />
+                        }
+                        {!loading && !successRegister
+                            ?
+                            <LinkCuston onClick={() => setIsLogin(true)} className="link-voltar">
+                                Voltar
+                            </LinkCuston>
+                            :
+                            (successRegister &&
+                                <SuccessField>
+                                    Conta criada com sucesso!
+                                </SuccessField>
+                            )
+                        }
                     </ContainerForm>
                 </>
                 :
                 <>
-                    <ContainerForm>
+                    <ContainerForm onSubmit={handleSubmit(onSubmitLogin)}>
                         <Head>
                             <title>Entrar</title>
                         </Head>
@@ -90,17 +111,33 @@ function Login() {
                              </Title>
                         </ContainerTitle>
                         <ContinerInput>
-                            <Input type="email" placeholder="Digite seu melhor e-mail" />
+                            <Input type="email" name="email" placeholder="Digite seu melhor e-mail" ref={register({ required: true, })} />
+                            {errors.email && <ErrorField>O e-mail é obrigatório</ErrorField>}
                         </ContinerInput>
                         <ContinerInput>
-                            <Input type="password" placeholder="Digite sua senha" />
+                            <Input type="password" name="password" placeholder="Digite sua senha" ref={register({ required: true, })} />
+                            {errors.password && <ErrorField>O password é obrigatório</ErrorField>}
                         </ContinerInput>
-                        <Button>
-                            Entrar
-                        </Button>
-                        <LinkCuston onClick={() => setIsLogin(false)} className="link-register">
-                            Criar conta gratuitamente
-                        </LinkCuston>
+                        {!loading
+                            ?
+                            <Button type="submit">
+                                Entrar
+                            </Button>
+                            :
+                            <Loading />
+                        }
+                        {!loading && !successRegister
+                            ?
+                            <LinkCuston onClick={() => setIsLogin(false)} className="link-register">
+                                Criar conta gratuitamente
+                            </LinkCuston>
+                            :
+                            (successRegister &&
+                                <SuccessField>
+                                    Login relaizado com sucesso!
+                                </SuccessField>
+                            )
+                        }
                     </ContainerForm>
                 </>
             }

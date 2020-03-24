@@ -5,6 +5,7 @@ import withRedux from 'next-redux-wrapper';
 import { PersistGate } from 'redux-persist/integration/react';
 import reduxStore from '../src/store/createStore';
 import '../styles.css';
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 
 class MyApp extends App {
     static async getInitialProps({ Component, ctx }) {

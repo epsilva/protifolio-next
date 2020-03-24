@@ -3,6 +3,11 @@ import Logo from '../Logo';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 import { Button } from '../../styles/styles';
+import { useSelector } from 'react-redux';
+import Avatar from 'react-avatar';
+import { useRouter } from 'next/router';
+import Dropdow from './components/Dropdown';
+import ItensMenu from './components/ItensMenu';
 
 import {
     Container,
@@ -12,7 +17,16 @@ import {
     Text,
 } from './styles';
 
-function Header({ isIndex }) {
+function Header({ isIndex, isHome }) {
+    const router = useRouter();
+    const user = useSelector(state => state.auth.user);
+    const singout = useSelector(state => state.auth.singout);
+
+    useEffect(() => {
+        if(singout) {
+            router.push('/');
+        }
+    }, [singout])
 
     return (
         <Container>
@@ -31,6 +45,12 @@ function Header({ isIndex }) {
                                 </a>
                             </Link>
                         </>
+                        : isHome ? 
+                        <>
+                            <Dropdow content={<ItensMenu />}>
+                                <Avatar name={user?.name} size={45} round maxInitials={2}/>
+                            </Dropdow>
+                        </>
                         :
                         <>
                             <Text href="#Home">Home</Text>
@@ -46,10 +66,12 @@ function Header({ isIndex }) {
 
 Header.defaultProps = {
     isIndex: false,
+    isHome: false
 }
 
 Header.PropTypes = {
     isIndex: PropTypes.bool,
+    isHome: PropTypes.bool
 }
 
 export default Header;

@@ -1,5 +1,6 @@
 import firebase from 'firebase';
 import 'firebase/storage';
+import ReduxSagaFirebase from 'redux-saga-firebase'
 
 const config = {
     apiKey: "AIzaSyBjHD4ssX8kXDr_5CZR4FOFNcxgrap0t9Q",
@@ -12,6 +13,7 @@ const config = {
     measurementId: "G-4858K3QVJB"
 };
 
-export const firebaseImpl = !firebase.apps.length ? firebase.initializeApp(config) : firebase;
-export const firebaseDatabase = firebase.database();
-export const firebaseStorage = firebase.storage();
+export const firebaseImpl = !firebase.apps.length ? new ReduxSagaFirebase(firebase.initializeApp(config)) : new ReduxSagaFirebase(firebase);
+export const firebaseNo = !firebase.apps.length ? firebase.initializeApp(config) : firebase;
+export const firebaseDatabase =  new ReduxSagaFirebase(firebase.database());
+export const firebaseStorage =  new ReduxSagaFirebase(firebase.storage());

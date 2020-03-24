@@ -13,7 +13,8 @@
 
     html, body, #root {
         height: 100%;
-        background: #eaeaeb;
+        /* background: #eaeaeb; */
+        background: #f2f2f2;
         scroll-behavior: smooth;
         overflow: auto;
     }

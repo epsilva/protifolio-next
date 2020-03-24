@@ -20,7 +20,7 @@ export const Button = styled.button`
   height: 42px;
 
   &:hover {
-    background: ${darken(0.2, '#6963fb')};
+    background: ${darken(0.03, '#6963fb')};
   }
 
 `;
@@ -42,6 +42,7 @@ export const Input = styled.input`
     padding: 8px;
     font-size: 16px;
     height: 42px;
+    margin-bottom: 2px;
 
     margin-right: 8px;
     width: 100%;
@@ -61,5 +62,10 @@ export const LinkCuston = styled.span`
 
 export const ErrorField = styled.span`
   color: #af4c37;
+  font-size: 14px;
+`;
+
+export const SuccessField = styled.span`
+  color: #4BB543;
   font-size: 14px;
 `;

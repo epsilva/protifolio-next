@@ -6,7 +6,7 @@ export default reducers => {
         {
             key: 'portifolio-esdras',
             storage,
-            whitelist: ['auth', 'user'],
+            whitelist: ['auth'],
         },
         reducers
     );
